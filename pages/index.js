@@ -1,6 +1,9 @@
+import Layout from "../layout/layout"
 
 export default function Home() {
   return (
-    <h1>Hola Mundo!</h1>
+    <Layout>
+      <h1>Inicio</h1>
+    </ Layout>
   )
 }
