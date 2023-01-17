@@ -7,10 +7,12 @@ const FOMContext = createContext()
 const FOMProvider = ({ children }) => {
   const [categories, setCategories] = useState([])
   const [actualCategory, setActualCategory] = useState({})
+  const [selectedProduct, setSelectedProduct] = useState({})
+  const [modalState, setmodalState] = useState(false)
 
   const getCategories = async () => {
     const { data } = await axios('/api/categories')
-    setCategories(data)
+    setCategories(data) 
   }
   
   useEffect(() => {
@@ -27,12 +29,24 @@ const FOMProvider = ({ children }) => {
     setActualCategory(category[0])
   }
 
+  const handleSelectedProduct = product => {
+    setSelectedProduct(product)
+  }
+
+  const handleChangeModal = () => {
+    setmodalState(!modalState)
+  }
+
   return (
     <FOMContext.Provider
       value={{
         categories,
         actualCategory,
-        handleClickCategory
+        handleClickCategory,
+        handleSelectedProduct,
+        handleChangeModal,
+        selectedProduct,
+        modalState
       }}
     >
       { children }

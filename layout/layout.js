@@ -1,7 +1,28 @@
 import Head from "next/head";
-import { Sidebar } from "../components/Sidebar";
+import Modal from 'react-modal'
+
+import useFOM from "../hooks/useFOM";
+import { Sidebar, ProductModal } from "../components";
+// import productModal from "../components/productModal";
+
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    backgroundColor: '#F0EADA'
+  },
+};
+
+Modal.setAppElement('#__next');
 
 export default function Layout({ children, page }) {
+
+  const { modalState, handleChangeModal } = useFOM()
+
   return (
     <>
       <Head>
@@ -19,6 +40,18 @@ export default function Layout({ children, page }) {
           </div>
         </main>
       </div>
+
+      {
+        modalState && (
+          <Modal
+            isOpen={modalState}
+            onRequestClose={handleChangeModal}
+            style={customStyles}
+          >
+            <ProductModal />
+          </Modal>
+        )
+      }
     </>
   )
 }
