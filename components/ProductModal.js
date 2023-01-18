@@ -1,27 +1,46 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/legacy/image"
 import useFOM from "../hooks/useFOM"
 
 const productModal = () => {
 
-  const { selectedProduct, actualCategory, handleChangeModal } = useFOM()
+  const { selectedProduct, actualCategory, handleChangeModal, handleOrder, order } = useFOM()
   const [amount, setAmount] = useState(1)
+  const [edition, setEdition] = useState(false)
+
+  useEffect(() => {
+    if(order.some( p => p.id === selectedProduct.id)) {
+      const {amount: amountSelectedProduct} = order.find( 
+        p => p.id === selectedProduct.id
+      )
+      setEdition(true)
+      setAmount(amountSelectedProduct)
+    }
+  }, [selectedProduct])
 
   return (
     <div className="md:flex">
+
+      <div className="flex md:hidden justify-end mb-3">
+        <button type="button" onClick={handleChangeModal} >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
       <div className="md:w-1/3">
         <Image
           alt={`Imagen producto ${selectedProduct.name}`}
           src={`/assets/img/${selectedProduct.image}.jpg`}
-          width={500}
-          height={500}
+          width={600}
+          height={600}
         />
       </div>
 
       <div className="md:w-2/3 ml-5">
-
-        <div className="flex justify-end">
-          <button onClick={handleChangeModal} >
+        <div className="hidden md:flex justify-end">
+          <button type="button" onClick={handleChangeModal} >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -58,6 +77,17 @@ const productModal = () => {
             </svg>
           </button>
         </div>
+
+        <button
+          type="button"
+          className="w-full bg-green text-yellow uppercase p-3 mt-5 font-bold"
+          onClick={() => {
+            handleOrder({ ...selectedProduct, amount })
+            handleChangeModal()
+          }}
+        >
+          { edition ? 'Actualizar pedido' : 'Añadir al pedido'}
+        </button>
 
       </div>
     </div>
