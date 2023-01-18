@@ -22,11 +22,12 @@ Modal.setAppElement('#__next');
 export default function Layout({ children, page }) {
 
   const { modalState, handleChangeModal } = useFOM()
+  const title = `Fresh Coffee - ${page === undefined ? 'Loading...' : page}`
 
   return (
     <>
       <Head>
-        <title>Fresh Coffee - {page} </title>
+        <title>{title}</title>
         <meta name="description" content="Food Order Manager"/>
       </Head>
 
