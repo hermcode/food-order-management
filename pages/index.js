@@ -1,6 +1,6 @@
 import Product from "../components/Product"
 import useFOM from "../hooks/useFOM"
-import Layout from "../layout/Layout"
+import Layout from "../layout/layout"
 
 export default function Home() {
 
