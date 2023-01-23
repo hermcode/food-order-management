@@ -11,7 +11,6 @@ const FOMProvider = ({ children }) => {
   const [selectedProduct, setSelectedProduct] = useState({})
   const [modalState, setmodalState] = useState(false)
   const [order, setOrder] = useState([])
-  const [orderStep, setOrderStep] = useState(1)
 
   const getCategories = async () => {
     const { data } = await axios('/api/categories')
@@ -51,10 +50,6 @@ const FOMProvider = ({ children }) => {
     toast.success('Agregado al pedido', {autoClose: 1500})
   }
 
-  const handleOrderStep = (step) => {
-    setOrderStep(step)
-  }
-
   return (
     <FOMContext.Provider
       value={{
@@ -66,9 +61,7 @@ const FOMProvider = ({ children }) => {
         selectedProduct,
         modalState,
         order,
-        handleOrder,
-        handleOrderStep,
-        orderStep
+        handleOrder
       }}
     >
       { children }
