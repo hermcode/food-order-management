@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect, createContext } from "react";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 // FOM: Food Order Management
 const FOMContext = createContext()
@@ -11,6 +12,8 @@ const FOMProvider = ({ children }) => {
   const [selectedProduct, setSelectedProduct] = useState({})
   const [modalState, setmodalState] = useState(false)
   const [order, setOrder] = useState([])
+
+  const router = useRouter()
 
   const getCategories = async () => {
     const { data } = await axios('/api/categories')
@@ -29,6 +32,7 @@ const FOMProvider = ({ children }) => {
   const handleClickCategory = (id) => {
     const category = categories.filter( c => c.id === id)
     setActualCategory(category[0])
+    router.push('/')
   }
 
   const handleSelectedProduct = product => {
