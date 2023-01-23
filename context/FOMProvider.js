@@ -43,11 +43,18 @@ const FOMProvider = ({ children }) => {
     if(order.some( p => p.id === addedProduct.id)) {
       const updatedOrder = order.map( p => p.id === addedProduct.id ? addedProduct : p)
       setOrder(updatedOrder)
+      toast.success('Pedido actualizado', {autoClose: 1500})
       return
     }
 
     setOrder([...order, addedProduct])
     toast.success('Agregado al pedido', {autoClose: 1500})
+  }
+
+  const handleDeleteProduct = (id) => {
+    const updatedOrder = order.filter(p => p.id !== id)
+    setOrder(updatedOrder)
+    toast.error('Producto eliminado', {autoClose: 1500})
   }
 
   return (
@@ -61,7 +68,8 @@ const FOMProvider = ({ children }) => {
         selectedProduct,
         modalState,
         order,
-        handleOrder
+        handleOrder,
+        handleDeleteProduct
       }}
     >
       { children }
