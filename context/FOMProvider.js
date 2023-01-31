@@ -12,6 +12,8 @@ const FOMProvider = ({ children }) => {
   const [selectedProduct, setSelectedProduct] = useState({})
   const [modalState, setmodalState] = useState(false)
   const [order, setOrder] = useState([])
+  const [customerName, setCustomerName] = useState('')
+  const [total, setTotal] = useState(0)
 
   const router = useRouter()
 
@@ -27,6 +29,14 @@ const FOMProvider = ({ children }) => {
   useEffect(() => {
     setActualCategory(categories[0])
   }, [categories])
+
+  useEffect(() => {
+    const newTotal = order.reduce((acc, product) => {
+      return product.price * product.amount + acc
+    }, 0)
+
+    setTotal(newTotal.toFixed(1))
+  }, [order])
 
 
   const handleClickCategory = (id) => {
@@ -61,6 +71,11 @@ const FOMProvider = ({ children }) => {
     toast.error('Producto eliminado', {autoClose: 1500})
   }
 
+  const sendOrder = async (e) => {
+    e.preventDefault()
+    console.log('Sending order...')
+  }
+
   return (
     <FOMContext.Provider
       value={{
@@ -73,7 +88,11 @@ const FOMProvider = ({ children }) => {
         modalState,
         order,
         handleOrder,
-        handleDeleteProduct
+        handleDeleteProduct,
+        customerName,
+        setCustomerName,
+        sendOrder,
+        total
       }}
     >
       { children }
