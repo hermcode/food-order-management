@@ -35,7 +35,8 @@ const FOMProvider = ({ children }) => {
       return product.price * product.amount + acc
     }, 0)
 
-    setTotal(newTotal.toFixed(1))
+    // "+" changes the string to number
+    setTotal(+newTotal.toFixed(1))
   }, [order])
 
 
@@ -73,7 +74,29 @@ const FOMProvider = ({ children }) => {
 
   const sendOrder = async (e) => {
     e.preventDefault()
-    console.log('Sending order...')
+    
+    try {
+      await axios.post('/api/orders', {
+        orderDetails: order,
+        customerName,
+        total,
+        date: Date.now().toString()
+      })
+
+      setActualCategory(categories[0])
+      setOrder([])
+      setCustomerName('')
+      setTotal(0)
+
+      toast.success('Tu pedido se está preparando', {autoClose: 1500})
+
+      setTimeout(() => {
+        router.push('/')
+      }, 2000)
+
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
