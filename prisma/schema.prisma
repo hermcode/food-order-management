@@ -28,8 +28,8 @@ model Category {
 
 model Order {
   id Int @id @default(autoincrement())
-  nombre String
-  fecha String
+  customerName String
+  date String
   total Float
   orderDetails Json
 }
