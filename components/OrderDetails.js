@@ -1,12 +1,19 @@
 
 import Image from "next/legacy/image"
+import axios from "axios"
+import { toast} from 'react-toastify'
 
 const OrderDetails = ({order}) => {
 
   const {id, customerName, total, orderDetails} = order
 
-  const completeOrder = () => {
-    console.log('Completando')
+  const completeOrder = async() => {
+    try {
+      await axios.post(`/api/orders/${id}`)
+      toast.success('Orden completada', {autoClose: 1500})
+    } catch (error) {
+      toast.error('Hubo un error', {autoClose: 1500})
+    }
   }
 
   return (
