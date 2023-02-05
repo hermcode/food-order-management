@@ -14,6 +14,14 @@ export default async function handler(req, res) {
         orderDetails: req.body.orderDetails
       }
     })
-    res.json(order)
+    return res.status(200).json(order)
   }
+
+  const orders = await prisma.order.findMany({
+    where:{
+      orderState: false
+    }
+  })
+
+  return res.status(200).json(orders)
 }
