@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import Image from "next/legacy/image"
 import useFOM from "../hooks/useFOM"
 
-const productModal = () => {
+const ProductModal = () => {
 
   const { selectedProduct, actualCategory, handleChangeModal, handleOrder, order } = useFOM()
   const [amount, setAmount] = useState(1)
@@ -94,4 +94,4 @@ const productModal = () => {
   )
 }
 
-export default productModal
+export default ProductModal
